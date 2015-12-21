@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Search</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  </head>
+  <body>
+  	<div class="container">
+  	<div class="page-header">
+  		<h1>Search with <emph>tf-idf</emph></h1>
+  		<form>
+		    <div class="input-group">
+		      <input type="text" name="q" class="form-control" placeholder="Macbook, Asus...">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default" type="button">Search!</button>
+		      </span>
+		    </div>
+  		</form>
+	</div>
+	{% if results %}
+	<div class="table-responsive">
+		<table class="table table-striped table-hover ">
+	    {% for product in results %}
+	    <tr>
+	    	    <td>{{ product.score | round(3, 'common') }}</td>
+	            <td><code>{{ product.Id}}</code></td>
+	            <td>{{ product.product.Name }}</td>
+	    </tr>
+    	{% endfor %}
+    	</table>
+    <div class="table-responsive">
+    {% else %}
+    	<p>Sorry no results</p>
+	{% endif %}
+	</div>
+  </body>
+</html>
+
