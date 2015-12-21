@@ -1,6 +1,6 @@
 import re, string
 from nltk.stem.porter import *
-from nltk.corpus import stopwords
+#from nltk.corpus import stopwords
 stemmer = PorterStemmer()
 
 class tokenizer:
