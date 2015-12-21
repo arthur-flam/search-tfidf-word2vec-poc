@@ -1,6 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 import json, codecs, sys
-from term_document import term_document_matrix_ll
+from term_document import TermDocumentMatrixDD
 from tokenizers import my_tokenizer
 
 
@@ -19,7 +19,7 @@ def json_loader(filepath = "products.json"):
 
 # ===========================================================================
 
-tfidf_data = term_document_matrix_ll(json_loader, my_tokenizer)
+tfidf_data = TermDocumentMatrixDD(json_loader, my_tokenizer)
 
 
 from flask import Flask, request, render_template

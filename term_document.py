@@ -1,10 +1,7 @@
 from abc import ABCMeta, abstractmethod
 import math, operator
 
-class term_document_matrix_abstract:
-    n_documents = 0
-    document = {}
-
+class TermDocumentMatrixAbstract:
     __metaclass__ = ABCMeta
     @abstractmethod
     def get_freq(self, doc_id, term): pass
@@ -40,6 +37,7 @@ class term_document_matrix_abstract:
                 self.set_freq(doc_id, term, inverse_term_frequency * old_term_freq)
 
     def __init__(self, documents_loader, tokenizer):
+        self.n_documents = 0
         self.tokenizer = tokenizer
         self.documents = {document["Id"]: document for document in documents_loader()} # abstracted ?
         for document in documents_loader():
@@ -66,8 +64,8 @@ class term_document_matrix_abstract:
 
 
 
-class term_document_matrix_ll(term_document_matrix_abstract):
-    """ Implentation with list of lists """
+class TermDocumentMatrixDD(TermDocumentMatrixAbstract):
+    """ Implentation with dict-of-dicts """
     counts_of_words_in_corpus = dict()
     term_document_frequencies = dict()
     documents_for_term = dict()
@@ -103,6 +101,6 @@ class term_document_matrix_ll(term_document_matrix_abstract):
             return []
         return self.documents_for_term[term]
 
-class term_document_matrix_sm(term_document_matrix_abstract):
+class TermDocumentMatrixSM(TermDocumentMatrixAbstract):
     """ Implentation with sparse matrix """
     pass

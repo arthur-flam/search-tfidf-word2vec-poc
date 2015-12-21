@@ -3,7 +3,7 @@ from nltk.stem.porter import *
 #from nltk.corpus import stopwords
 stemmer = PorterStemmer()
 
-class tokenizer:
+class Tokenizer:
     def __init__(self, transforms=[], filters=[]):
         self.transforms = transforms # list of string -> string
         self.filters = filters       # list of tokens -> tokens
@@ -26,4 +26,4 @@ filters = [
     lambda s: s in ["stopwords", "the", "a", "stop", "what"]
 ]
 
-my_tokenizer = tokenizer(transforms, filters)
+my_tokenizer = Tokenizer(transforms, filters)
