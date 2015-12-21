@@ -1,9 +1,14 @@
-import re, string
-from nltk.stem.porter import *
+# -*- coding: utf-8 -*-
+"""
+Util to tokenize strings in an extensible manner
+"""
+import re
+from nltk.stem.porter import PorterStemmer
 #from nltk.corpus import stopwords
 stemmer = PorterStemmer()
 
-class Tokenizer:
+class Tokenizer(object):
+    """ Handles tokenizer function """
     def __init__(self, transforms=[], filters=[]):
         self.transforms = transforms # list of string -> string
         self.filters = filters       # list of tokens -> tokens
@@ -11,7 +16,7 @@ class Tokenizer:
     def tokenize(self, string):
         s = string
         for transform in self.transforms:
-            s = transform(s) 
+            s = transform(s)
         tokens = s.split(' ')
         for filter in self.filters:
             tokens = [token for token in tokens if not filter(token)]
@@ -22,7 +27,7 @@ transforms = [
     lambda s: re.sub('[^A-Za-z0-9 ]+', '', s)
 ]
 filters = [
-    lambda s: len(s)<4,
+    lambda s: len(s) < 4,
     lambda s: s in ["stopwords", "the", "a", "stop", "what"]
 ]
 
