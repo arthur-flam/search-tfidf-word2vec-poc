@@ -65,7 +65,7 @@ class TermDocumentMatrixAbstract:
 
 
 class TermDocumentMatrixDD(TermDocumentMatrixAbstract):
-    """ Implentation with dict-of-dicts """
+    """ Implementation with dict-of-dicts """
     counts_of_words_in_corpus = dict()
     term_document_frequencies = dict()
     documents_for_term = dict()
@@ -102,5 +102,5 @@ class TermDocumentMatrixDD(TermDocumentMatrixAbstract):
         return self.documents_for_term[term]
 
 class TermDocumentMatrixSM(TermDocumentMatrixAbstract):
-    """ Implentation with sparse matrix """
+    """ Implementation with sparse matrix """
     pass
