@@ -57,7 +57,8 @@ class TermDocumentMatrixAbstract:
         		if doc_id not in scores:
         			scores[doc_id]=0
         		scores[doc_id] = scores[doc_id] + self.get_freq(doc_id, term)
-        scores_sorted = sorted(scores.items(), key=operator.itemgetter(1), reverse=True)
+        scores_sorted = sorted(scores.items(), key=operator.itemgetter(1,0), reverse=True)
+        print(scores_sorted)
         best_scores = list(scores_sorted)[0:(n-1)]
         output = [{"Id":document[0], "product":self.documents[document[0]], "score":document[1]} for document in best_scores]
         return output
