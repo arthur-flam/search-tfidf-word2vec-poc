@@ -9,26 +9,34 @@ stemmer = PorterStemmer()
 
 class Tokenizer(object):
     """ Handles tokenizer function """
-    def __init__(self, transforms=[], filters=[]):
-        self.transforms = transforms # list of string -> string
-        self.filters = filters       # list of tokens -> tokens
+    def __init__(self, transforms=None, filters=None):
+        self._transforms = transforms # list of string -> string
+        self._filters = filters       # list of tokens -> tokens
 
-    def tokenize(self, string):
-        s = string
-        for transform in self.transforms:
-            s = transform(s)
-        tokens = s.split(' ')
-        for filter in self.filters:
-            tokens = [token for token in tokens if not filter(token)]
+    def apply_transforms(self, string):
+        """ turns a raw string into an processed string """
+        for transform in self._transforms:
+            string = transform(string)
+        return string
+
+    def apply_filters(self, tokens):
+        """ filters an array of tokens """
+        for filter_ in self._filters:
+            tokens = [token for token in tokens if filter_(token)]
         return tokens
 
-transforms = [
+    def tokenize(self, string):
+        """ turns a raw string into an array of tokens """
+        tokens = self.apply_transforms(string).split(' ')
+        return self.apply_filters(tokens)
+
+my_transforms = [
     lambda s: s.lower(),
     lambda s: re.sub('[^A-Za-z0-9 ]+', '', s)
 ]
-filters = [
-    lambda s: len(s) < 4,
-    lambda s: s in ["stopwords", "the", "a", "stop", "what"]
+my_filters = [
+    lambda s: len(s) > 3,
+    lambda s: s not in ["stopwords", "the", "a", "stop", "what"]
 ]
 
-my_tokenizer = Tokenizer(transforms, filters)
+my_tokenizer = Tokenizer(my_transforms, my_filters)

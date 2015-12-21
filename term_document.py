@@ -1,7 +1,15 @@
+"""
+Data structure to hold corpus data and answer tf-idf queries
+"""
 from abc import ABCMeta, abstractmethod
-import math, operator
+import math
+import operator
 
 class TermDocumentMatrixAbstract:
+    """
+    Data structure holding the corpus and frequency data.
+    Needs 'backend' Implementation.
+    """
     __metaclass__ = ABCMeta
     @abstractmethod
     def get_freq(self, doc_id, term): pass
@@ -26,20 +34,24 @@ class TermDocumentMatrixAbstract:
         self.add_document(doc_id)
         for term in terms:
             old_corpus_freq = self.get_corpus_freq(term)
-            self.set_corpus_freq(term,  old_corpus_freq + 1)
+            self.set_corpus_freq(term, old_corpus_freq + 1)
             self.set_freq(doc_id, term, self.get_freq(doc_id, term) + 1)
     def perform_tf_idf(self):
         for term in self.get_terms():
-            inverse_term_frequency = math.log( self.n_documents / self.counts_of_words_in_corpus[term] )
+            inverse_term_frequency = math.log(
+                self.n_documents / self.counts_of_words_in_corpus[term]
+            )
             matching_documents = self.get_documents_for_term(term)
             for doc_id in matching_documents:
-                old_term_freq = self.get_freq(doc_id,term)
+                old_term_freq = self.get_freq(doc_id, term)
                 self.set_freq(doc_id, term, inverse_term_frequency * old_term_freq)
 
     def __init__(self, documents_loader, tokenizer):
         self.n_documents = 0
         self.tokenizer = tokenizer
-        self.documents = {document["Id"]: document for document in documents_loader()} # abstracted ?
+        self.documents = {
+            document["Id"]: document for document in documents_loader()
+        } # should be abstracted / implemented in DB ?
         for document in documents_loader():
             doc_id = document["Id"]
             terms = tokenizer.tokenize(document["Name"])
@@ -48,19 +60,23 @@ class TermDocumentMatrixAbstract:
         print("Loaded " + str(self.n_documents) + " document")
         self.perform_tf_idf()
 
-    def search(self, query, n = 10):
+    def search(self, query, n=10):
         query_terms = self.tokenizer.tokenize(query)
         scores = dict()
         for term in query_terms:
-        	matching_documents = self.get_documents_for_term(term)
-        	for doc_id in matching_documents:
-        		if doc_id not in scores:
-        			scores[doc_id]=0
-        		scores[doc_id] = scores[doc_id] + self.get_freq(doc_id, term)
-        scores_sorted = sorted(scores.items(), key=operator.itemgetter(1,0), reverse=True)
+            matching_documents = self.get_documents_for_term(term)
+            for doc_id in matching_documents:
+                if doc_id not in scores:
+                    scores[doc_id] = 0
+                scores[doc_id] = scores[doc_id] + self.get_freq(doc_id, term)
+        scores_sorted = sorted(scores.items(), key=operator.itemgetter(1, 0), reverse=True)
         print(scores_sorted)
         best_scores = list(scores_sorted)[0:(n-1)]
-        output = [{"Id":document[0], "product":self.documents[document[0]], "score":document[1]} for document in best_scores]
+        output = [{
+            "Id":document[0],
+            "product":self.documents[document[0]],
+            "score":document[1]
+            } for document in best_scores]
         return output
 
 
