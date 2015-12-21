@@ -54,7 +54,7 @@ class TermDocumentMatrixAbstract:
         for term in query_terms:
         	matching_documents = self.get_documents_for_term(term)
         	for doc_id in matching_documents:
-        		if(not doc_id in scores):
+        		if doc_id not in scores:
         			scores[doc_id]=0
         		scores[doc_id] = scores[doc_id] + self.get_freq(doc_id, term)
         scores_sorted = sorted(scores.items(), key=operator.itemgetter(1), reverse=True)
@@ -73,32 +73,32 @@ class TermDocumentMatrixDD(TermDocumentMatrixAbstract):
     def get_terms(self):
         return list(self.documents_for_term.keys())
     def add_document(self, doc_id):
-        if(not doc_id in self.term_document_frequencies):
+        if doc_id not in self.term_document_frequencies:
             self.term_document_frequencies[doc_id] = dict()
     def get_freq(self, doc_id, term):
-        if(not term in self.term_document_frequencies[doc_id]):
+        if term not in self.term_document_frequencies[doc_id]:
             return 0
         return self.term_document_frequencies[doc_id][term]
     def set_freq(self, doc_id, term, value):
-        if(not term in self.term_document_frequencies[doc_id]):
+        if term not in self.term_document_frequencies[doc_id]:
             self.term_document_frequencies[doc_id][term] = 0
         self.term_document_frequencies[doc_id][term] = value
-        if(not term in self.documents_for_term):
+        if term not in self.documents_for_term:
             self.documents_for_term[term] = set()
         self.documents_for_term[term].add(doc_id) # we assume we set != 0
         return value
     def get_corpus_freq(self, term):
-        if(not term in self.counts_of_words_in_corpus):
+        if term not in self.counts_of_words_in_corpus:
             self.counts_of_words_in_corpus[term] = 0
         return self.counts_of_words_in_corpus[term]
     def set_corpus_freq(self, term, value):
-        if(not term in self.counts_of_words_in_corpus):
+        if term not in self.counts_of_words_in_corpus:
             self.counts_of_words_in_corpus[term] = 0
         self.counts_of_words_in_corpus[term] = value
         return value
     def get_documents_for_term(self, term):
-        if(not term in self.documents_for_term):
-            return []
+        if term not in self.documents_for_term:
+            return set()
         return self.documents_for_term[term]
 
 class TermDocumentMatrixSM(TermDocumentMatrixAbstract):
