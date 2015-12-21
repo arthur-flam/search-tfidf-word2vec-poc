@@ -11,6 +11,7 @@ pip install Flask nltk
 ```
 python3 app.py
 ```
+![Preview on test data](https://raw.github.com/arthur-flam/tf-idf-poc/master/screenshot.png)
 
 ## Tests
 - The tokenizer is tested
