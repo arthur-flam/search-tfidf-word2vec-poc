@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 Answers queries about documents with tf-idf
 """
@@ -6,7 +6,7 @@ import json
 from flask import Flask, request, render_template
 from term_document import TermDocumentMatrixDD
 from tokenizers import my_tokenizer
-
+import settings
 
 # ===========================================================================
 # TODO :
@@ -21,8 +21,16 @@ def json_loader(filepath="products.json"):
     file_connection = open(filepath, 'r', encoding="utf-8")
     return json.loads(file_connection.read(), encoding="utf-8")
 
+from pymongo import MongoClient
+def db_loader():
+    client = MongoClient('localhost', 27017)
+    print("connecting to "+ settings.DB_NAME)
+    products = client[settings.DB_NAME].products
+    return products.find()
+
 # == INIT ===================================================================
-tfidf_data = TermDocumentMatrixDD(json_loader, my_tokenizer)
+#tfidf_data = TermDocumentMatrixDD(json_loader, my_tokenizer)
+tfidf_data = TermDocumentMatrixDD(db_loader, my_tokenizer)
 
 
 # === SERVER ================================================================
@@ -33,4 +41,4 @@ def search():
     return render_template('search.html', results=tfidf_data.search(query))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=6001)

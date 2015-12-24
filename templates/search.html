@@ -10,10 +10,10 @@
   <body>
   	<div class="container">
   	<div class="page-header">
-  		<h1>Search with <emph>tf-idf</emph></h1>
+  		<h1>Search with tf-idf</h1>
   		<form>
 		    <div class="input-group">
-		      <input type="text" name="q" class="form-control" placeholder="Macbook, Asus...">
+		      <input type="text" name="q" class="form-control" placeholder="Purple chair, Wooden shelf...">
 		      <span class="input-group-btn">
 		        <button class="btn btn-default" type="button">Search!</button>
 		      </span>
@@ -25,9 +25,10 @@
 		<table class="table table-striped table-hover ">
 	    {% for product in results %}
 	    <tr>
-	    	    <td>{{ product.score | round(3, 'common') }}</td>
-	            <td><code>{{ product.Id}}</code></td>
-	            <td>{{ product.product.Name }}</td>
+		    <td><a href="{{ product.product.ProductPageActionUrl }}"><img src="{{ product.product.ImageUrl }}" class="img-responsive img-thumbnail" ></a></td>
+  		    <td>{% if product.product.CurrentPrice %}<strong>${{ product.product.CurrentPrice }}</strong>{% endif %}</td>
+	            <td><p>{{ product.product.Name }}</p></td>
+	    	    <td><small>{{ product.score | round(3, 'common') }}</small></td>
 	    </tr>
     	{% endfor %}
     	</table>

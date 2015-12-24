@@ -1,5 +1,7 @@
 # tfidf
 
+Demo should be running at [search.lookies.io](http://search.lookies.io?purple+chair)
+
 ## Setup
 ```
 virtualenv -p /usr/local/bin/python3 py3env # see: which python3
