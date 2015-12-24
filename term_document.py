@@ -4,6 +4,7 @@ Data structure to hold corpus data and answer tf-idf queries
 from abc import ABCMeta, abstractmethod
 import math
 import operator
+import word2vec
 
 class TermDocumentMatrixAbstract:
     """
@@ -58,6 +59,8 @@ class TermDocumentMatrixAbstract:
             self.add_new_document(doc_id, terms)
             self.n_documents = self.n_documents + 1
         print("Loaded " + str(self.n_documents) + " document")
+        word2vec_dictionnary = word2vec.load('GoogleNews-vectors-negative300.bin')
+        print("Loaded pre-trained word2vec")
         self.perform_tf_idf()
 
     def search(self, query, n=10):
@@ -78,6 +81,28 @@ class TermDocumentMatrixAbstract:
             "score":document[1]
             } for document in best_scores]
         return output
+
+    def search_word2vec(self, query, n=10):
+        query_terms = self.tokenizer.tokenize(query)
+        scores = dict()
+        for term in query_terms:
+            # see http://nbviewer.ipython.org/github/danielfrg/word2vec/blob/master/examples/word2vec.ipynb
+            words_and_metrics = model.generate_response(indexes, metrics).tolist()
+            print("|" + term+" ? similar terms to")
+            for similar_term, weight in words_and_metrics:
+                print("|| " + similar_term + " " + weight)
+                matching_documents = self.get_documents_for_term(term_similar)
+                for document in matching_documents:
+                    if doc_id not in scores:
+                        scores[doc_id] = 0
+        best_scores = list(scores_sorted)[0:(n-1)]
+        output = [{
+            "Id":document[0],
+            "product":self.documents[document[0]],
+            "score":document[1]
+        } for document in best_scores]
+        return output
+
 
 
 

@@ -6,7 +6,9 @@ Demo should be running at [search.lookies.io](http://search.lookies.io?purple+ch
 ```
 virtualenv -p /usr/local/bin/python3 py3env # see: which python3
 source py3env/bin/activate
-pip install Flask nltk
+pip install Flask nltk word2vec
+wget https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit?usp=sharing
+tar -xzf GoogleNews-vectors-negative300.bin.gz
 ```
 
 ## Run
