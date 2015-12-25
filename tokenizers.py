@@ -3,9 +3,9 @@
 Util to tokenize strings in an extensible manner
 """
 import re
-from nltk.stem.porter import PorterStemmer
+#from nltk.stem.porter import PorterStemmer
 #from nltk.corpus import stopwords
-stemmer = PorterStemmer()
+#stemmer = PorterStemmer()
 
 class Tokenizer(object):
     """ Handles tokenizer function """

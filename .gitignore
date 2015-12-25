@@ -1,5 +1,6 @@
 py3env/
 settings.py
+GoogleNews-vectors-negative300.bin.gz
 
 # Created by https://www.gitignore.io/api/s,osx,python,emacs,visualstudio,sublimetext
 

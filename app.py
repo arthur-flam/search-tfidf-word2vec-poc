@@ -40,5 +40,10 @@ def search():
     query = request.args.get('q', '')
     return render_template('search.html', results=tfidf_data.search(query))
 
+@app.route("/word2vec")
+def search_word2vec():
+    query = request.args.get('q', '')
+    return render_template('search.html', results=tfidf_data.search_word2vec(query))
+
 if __name__ == "__main__":
     app.run(debug=True, port=6001)
