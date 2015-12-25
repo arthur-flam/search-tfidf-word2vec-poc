@@ -1,4 +1,4 @@
-# Searching documents with TF-IDF & Word2vec
+# Searching documents with TF-IDF
 
 Demo should be running at [search.lookies.io](http://search.lookies.io?purple+chair).
 ![Preview on test data](https://raw.github.com/arthur-flam/tf-idf-poc/master/screenshot.png)
@@ -8,12 +8,20 @@ Demo should be running at [search.lookies.io](http://search.lookies.io?purple+ch
 # sudo apt-get install python3.4-dev
 virtualenv -p /usr/local/bin/python3 py3env # see: which python3
 source py3env/bin/activate
+<<<<<<< HEAD
 pip install Flask pymongo
 pip install nltk    # for the stemmer (todo)
 
 pip install gensim  # for word2vec # cython numpy word2vec
 wget https://s3.amazonaws.com/mordecai-geo/GoogleNews-vectors-negative300.bin.gz
 # mirror of: https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit?usp=sharing
+=======
+pip install Flask nltk word2vec
+# you may want to make sure Cython is installed (usually pip install cython)
+# http://docs.cython.org/src/quickstart/install.html
+wget https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit?usp=sharing
+tar -xzf GoogleNews-vectors-negative300.bin.gz
+>>>>>>> word2vec
 ```
 
 ## Run
