@@ -1,6 +1,6 @@
 # Searching documents with TF-IDF
 
-Demo should be running at [search.lookies.io](http://search.lookies.io?purple+chair).
+Demo with 500k+ documents should be running at [search.lookies.io](http://search.lookies.io?purple+chair).
 ![Preview on test data](https://raw.github.com/arthur-flam/tf-idf-poc/master/screenshot.png)
 
 ## Setup
@@ -8,25 +8,18 @@ Demo should be running at [search.lookies.io](http://search.lookies.io?purple+ch
 # sudo apt-get install python3.4-dev
 virtualenv -p /usr/local/bin/python3 py3env # see: which python3
 source py3env/bin/activate
-<<<<<<< HEAD
 pip install Flask pymongo
 pip install nltk    # for the stemmer (todo)
 
 pip install gensim  # for word2vec # cython numpy word2vec
 wget https://s3.amazonaws.com/mordecai-geo/GoogleNews-vectors-negative300.bin.gz
 # mirror of: https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit?usp=sharing
-=======
-pip install Flask nltk word2vec
-# you may want to make sure Cython is installed (usually pip install cython)
-# http://docs.cython.org/src/quickstart/install.html
-wget https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit?usp=sharing
-tar -xzf GoogleNews-vectors-negative300.bin.gz
->>>>>>> word2vec
 ```
 
 ## Run
 ```
 python app.py
+# listenning on localhost:6001
 ```
 
 ## Tests
@@ -55,18 +48,17 @@ tokens = my_tokenizer.tokenize(string)
 - Available : a JSON file reader and one fetching docs from MongoDB.
 - We could read the JSON in chunks but since we are keeping all the data in memory anyway...
 
-### Web GUI
-Run and it is here : [http://localhost:5000?q=macbook](http://localhost:5000?q=macbook).
-
 ## What is bad
 - Maybe more [SOLID](https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)) to have the term-doc-freq data structure as member of the main data structure
-- Documents are handled as {"Id":"XXXX", "Name":"text"}. More flexibility could help.
+- A full-fledged class for documents instead of a dict could help
 - Typing is poor (Python..)
 - Python3 only.
 
 ## Todo
 - Complete stemming
-- Rewrite our use of word2vec as query expansion
+- set(tokens) to help with "cheating" descriptions
+- Rewrite the use of word2vec as query expansion
+- Re-train word2vec with product data instead of news articles...
 
 ## Performance
 * Indexing : Time should grow in *O(tokens) ~= O(documents)* 
