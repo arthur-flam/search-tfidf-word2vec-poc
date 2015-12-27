@@ -55,7 +55,8 @@ tokens = my_tokenizer.tokenize(string)
 - Python3 only.
 
 ## Todo
-- Complete stemming
+- Complete stemming + add tokens->f(tokens) in tokenizer
+- Add bigrams transformation (continue work from train_word2vec..)
 - set(tokens) to help with "cheating" descriptions
 - Rewrite the use of word2vec as query expansion
 - Re-train word2vec with product data instead of news articles...
