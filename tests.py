@@ -1,28 +1,34 @@
 import unittest
+from tokenizers import MY_TOKENIZER_INDEX
 
-from tokenizers import my_tokenizer
 class TokenizerTestCase(unittest.TestCase):
-  def test_basic(self):
-      self.assertEqual(my_tokenizer.tokenize("HELLO"), ["hello"])
-      self.assertEqual(my_tokenizer.tokenize("HELLO WORLD"), ["hello","world"])
-      self.assertEqual(my_tokenizer.tokenize("hello world!"), ["hello","world"])
-      self.assertEqual(my_tokenizer.tokenize("hello the world"), ["hello","world"])
-      self.assertEqual(my_tokenizer.tokenize("hello   world"), ["hello","world"])
-      self.assertEqual(my_tokenizer.tokenize("hello v world"), ["hello","world"])
+  correct_tokens = [("hello", 1), ("world", 1)]
+  def test_format(self):
+    """ tokennizer returns [(term,weight),...] format """
 
-# import os
-# import app
-# import unittest
-# import tempfile
-# class FlaskAppTestCase(unittest.TestCase):
+  def test_lowercase(self):
+    """ tokennizer lowercases """
+    self.assertEqual(MY_TOKENIZER_INDEX.tokenize("HELLO"), [("hello",1)])
 
-#     def setUp(self):
-#         self.app = app.app.test_client()
-#         print(app)
+  def test_split(self):
+    """ tokennizer splits on whitespace """
+    self.assertEqual(MY_TOKENIZER_INDEX.tokenize("HELLO WORLD"), self.correct_tokens)
 
-#     def test_empty_db(self):
-#         rv = self.app.get('/search')
-#         assert 'Search!' in rv.data
+  def test_punctuation(self):
+    """ tokennizer removes punctuation """
+    self.assertEqual(MY_TOKENIZER_INDEX.tokenize("hello world!"), self.correct_tokens)
 
-# if __name__ == '__main__':
-#     unittest.main()
+  def test_stopwords(self):
+    """ tokennizer removes stopwords """
+    self.assertEqual(MY_TOKENIZER_INDEX.tokenize("hello the world"), self.correct_tokens)
+      
+  def test_trim_whitespace(self):
+    """ tokennizer removes stopwords """
+    self.assertEqual(MY_TOKENIZER_INDEX.tokenize("hello   world"), self.correct_tokens)
+      
+  def test_smallwords(self):
+    """ tokennizer removes small words """
+    self.assertEqual(MY_TOKENIZER_INDEX.tokenize("hello v world"), self.correct_tokens)
+
+if __name__ == '__main__':
+  unittest.main()
