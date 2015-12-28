@@ -23,6 +23,9 @@ python app.py
 ```
 
 ## Tests
+```
+green
+```
 I clearly need to transition from `build then test/maintain` to `test then build/maintain`...
 - The tokenizer is tested.
 - The rest *still* not so much...
@@ -55,11 +58,8 @@ tokens = my_tokenizer.tokenize(string)
 - Python3 only.
 
 ## Todo
-- Complete stemming + add tokens->f(tokens) in tokenizer
 - Add bigrams transformation (continue work from train_word2vec..)
-- set(tokens) to help with "cheating" descriptions
-- Rewrite the use of word2vec as query expansion
-- Re-train word2vec with product data instead of news articles...
+- See how to improve perf.
 
 ## Performance
 * Indexing : Time should grow in *O(tokens) ~= O(documents)* 

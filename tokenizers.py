@@ -16,7 +16,7 @@ class Tokenizer(object):
     def __init__(self, string_transforms=None, array_transforms=None, filters=None):
         self._string_transforms = string_transforms # string -> string
         self._filters = filters                     # list of tokens -> subset(list of tokens)
-        self._array_transforms = array_transforms  # list of tokens -> list of tokens
+        self._array_transforms = array_transforms   # list of tokens -> list of tokens
 
     def apply_string_transforms(self, string):
         """ Turns a raw string into an processed string """
@@ -54,12 +54,12 @@ def query_expansion_word2vec(tokens):
     Query expansion using our word2vec dictionnary seen as a 'synonyms' provider.
     See https://radimrehurek.com/gensim/models/word2vec.html
     """
-    tokens_array_of_arrays = [word2vec.most_similar(positive=[token], topn=3) for token in tokens]
-    tokens_array_of_arrays.append(tokens)
-    tokens = [token for sublist in tokens_array_of_arrays for token in sublist]
-    return tokens
-
-
+    try:
+        similar_tokens_array_of_arrays = [word2vec.most_similar(positive=[token], topn=10) for token in tokens]
+    except KeyError:
+        similar_tokens_array_of_arrays = []
+    similar_tokens_array = [token for sublist in similar_tokens_array_of_arrays for token in sublist]
+    return tokens + similar_tokens_array
 
 MY_STRING_TRANSFORMS = [
     lambda s: s.lower(),
@@ -80,4 +80,5 @@ MY_FILTERS = [
 
 MY_TOKENIZER_INDEX  = Tokenizer(MY_STRING_TRANSFORMS, MY_ARRAY_TRANSFORMS_INDEX, MY_FILTERS) 
 MY_TOKENIZER_SEARCH = Tokenizer(MY_STRING_TRANSFORMS, MY_ARRAY_TRANSFORMS_SEARCH, MY_FILTERS)
+MY_TOKENIZER_NO_STEMMING = Tokenizer(MY_STRING_TRANSFORMS, [query_expansion_word2vec], MY_FILTERS)
 

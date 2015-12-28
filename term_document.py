@@ -1,10 +1,10 @@
+# -*- coding: utf-8 -*-
 """
 Data structure to hold corpus data and answer tf-idf queries
 """
 from abc import ABCMeta, abstractmethod
 import math
 import operator
-import gensim
 
 
 class TermDocumentMatrixAbstract:

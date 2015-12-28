@@ -10,13 +10,12 @@
   <body>
   	<div class="container">
   	<div class="page-header">
-  		<h1>Search with tf-idf</h1>
-		<p>This demo features ~330k furniture and baby furniture products</p>	
-		<p>Find similar words with word2vec embeddings trained on this data <a href="/similar?q=wood">here</a></p>
+  		<h1>Find similar words with Word2Vec</h1>
 		{{ text | safe }}
+		<p>The Word2Vec embeddings are trained on ~330k furniture and baby furniture item descriptions.</p>
   		<form>
 		    <div class="input-group">
-		      <input type="text" name="q" class="form-control" placeholder="White wooden baby bedding...">
+		      <input type="text" name="q" class="form-control" placeholder="Caramel, Baby, Changer, Lion...">
 		      <span class="input-group-btn">
 		        <button class="btn btn-default" type="button">Search!</button>
 		      </span>
@@ -26,18 +25,16 @@
 	{% if results %}
 	<div class="table-responsive">
 		<table class="table table-striped table-hover ">
-	    {% for product in results %}
+	    {% for token_weight in results %}
 	    <tr>
-		    <td><a href="{{ product.product.ProductPageActionUrl }}"><img src="{{ product.product.ImageUrl }}" class="img-responsive img-thumbnail" ></a></td>
-  		    <td>{% if product.product.CurrentPrice %}<strong>${{ product.product.CurrentPrice }}</strong>{% endif %}</td>
-	            <td><p>{{ product.product.Name }}</p></td>
-	    	    <td><small>{{ product.score | round(3, 'common') }}</small></td>
+	            <td><p>{{ token_weight[0] }}</p></td>
+	    	    <td><small>{{ token_weight[1] | round(3, 'common') }}</small></td>
 	    </tr>
     	{% endfor %}
     	</table>
     <div class="table-responsive">
     {% else %}
-    	<p>Sorry no results</p>
+    	<p>Sorry no results.</p>
 	{% endif %}
 	</div>
   </body>
